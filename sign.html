@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NuX Wallet Generator </title>
+    <link rel="stylesheet" href="bulma.min.css">
+</head>
+
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">
+            NUX Wallet Sign Offline
+        </h1>
+        <div class="field">
+            <label class="label">12 Words PassPhrase</label>
+            <div class="control">
+                    <textarea class="textarea" id="passphrase" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Message</label>
+            <div class="control">
+                    <textarea class="textarea" id="message" rows="8"></textarea>
+            </div>
+        </div>
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-link" onclick="signIt()">Sign it</button>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Signature</label>
+            <div class="control">
+                <textarea class="textarea" readonly id="signature" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="js/jquery-2.2.0.min.js"></script>
+<script src="js/jsbn.js" type="text/javascript"></script>
+<script src="js/jsbn2.js" type="text/javascript"></script>
+<script src="js/extensions.js" type="text/javascript"></script>
+<script src="js/converters.js" type="text/javascript"></script>
+<script src="js/nxtaddress.js" type="text/javascript"></script>
+<script src="js/curve25519.js" type="text/javascript"></script>
+<script src="js/sha256.js" type="text/javascript"></script>
+<script src="js/nrs.js" type="text/javascript"></script>
+<script src="js/nrs.util.js" type="text/javascript"></script>
+<script src="js/nrs.encryption.js" type="text/javascript"></script>
+<script src="js/words.js" type="text/javascript"></script>
+<script>
+        function signIt() {
+            password = jQuery("#passphrase").val().trim();
+            message = jQuery("#message").val().trim();
+            signature = NRS.signBytes(message,password);
+            jQuery("#signature").val(signature);
+        }
+    </script>
+</body>
+
+</html>
