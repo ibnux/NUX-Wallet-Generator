@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NuX Wallet Generator </title>
+    <link rel="stylesheet" href="bulma.min.css">
+</head>
+
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">
+            NUX Wallet Generator
+        </h1>
+        <div class="field">
+            <label class="label">Password dengan 12 kata</label>
+            <div class="control">
+                    <textarea class="textarea" onkeyup="generateWallet()" id="passphrase" placeholder="passphrase"
+                    rows="3"></textarea>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Alamat Dompet</label>
+            <div class="control">
+                <input class="input is-success" id="alamat" type="text" placeholder="Alamat" value="NUX-">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Public Key</label>
+            <div class="control">
+                <input class="input is-success" id="public" readonly type="text" placeholder="public" value="NUX-">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">account id</label>
+            <div class="control">
+                <input class="input is-success" id="accountid" readonly type="text" placeholder="accountid" value="NUX-">
+            </div>
+        </div>
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-link is-light" onclick="acakWallet()">ACAK</button>
+            </div>
+            <div class="control">
+                <button class="button is-link" onclick="pilihIni()">SIMPAN</button>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="js/jquery-2.2.0.min.js"></script>
+<script src="js/jsbn.js" type="text/javascript"></script>
+<script src="js/jsbn2.js" type="text/javascript"></script>
+<script src="js/extensions.js" type="text/javascript"></script>
+<script src="js/converters.js" type="text/javascript"></script>
+<script src="js/nxtaddress.js" type="text/javascript"></script>
+<script src="js/curve25519.js" type="text/javascript"></script>
+<script src="js/sha256.js" type="text/javascript"></script>
+<script src="js/nrs.js" type="text/javascript"></script>
+<script src="js/nrs.util.js" type="text/javascript"></script>
+<script src="js/nrs.encryption.js" type="text/javascript"></script>
+<script src="js/words.js" type="text/javascript"></script>
+<script>
+        function acakWallet() {
+            var jml = words.length;
+            var hasil = "";
+            for (n = 0; n < 12; n++) {
+                hasil += words[acak(0, jml)] + " ";
+            }
+            jQuery("#passphrase").val(hasil.trim())
+            password = hasil.trim();
+            nxtAccount = NRS.convertNumericToRSAccountFormat(NRS.getAccountId(password));
+            jQuery("#alamat").val(nxtAccount);
+            akunID = NRS.getAccountId(password);
+            jQuery("#accountid").val(akunID);
+            jQuery("#public").val(NRS.generatePublicKey(password,false));
+        }
+
+        function generateWallet() {
+            password = jQuery("#passphrase").val().trim();
+            nxtAccount = NRS.convertNumericToRSAccountFormat(NRS.getAccountId(password));
+            jQuery("#alamat").val(nxtAccount);
+            akunID = NRS.getAccountId(password);
+            jQuery("#accountid").val(akunID);
+            jQuery("#public").val(NRS.generatePublicKey(password,false));
+        }
+
+        function acak(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        acakWallet();
+
+        function pilihIni() {
+            var pass = jQuery("#passphrase").val().trim();
+            var alamat = jQuery("#alamat").val().trim();
+            var accountid = jQuery("#alamat").val().trim();
+            var publickey = jQuery("#public").val().trim();
+            //SEND to Android Javascript interface
+            Wallet.pilihDompet(pass,alamat,accountid,publickey);
+        }
+    </script>
+</body>
+
+</html>
