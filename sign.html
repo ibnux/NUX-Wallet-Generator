@@ -2,63 +2,182 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NuX Wallet Generator </title>
-    <link rel="stylesheet" href="bulma.min.css">
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    <link rel="stylesheet" href="bootstrap.min.css" type="text/css" media="all">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Offline TX</title>
 </head>
 
 <body>
-<section class="section">
+    <style>
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        #qrcode {
+            padding-left: 10px;
+        }
+    </style>
+
     <div class="container">
-        <h1 class="title">
-            NUX Wallet Sign Offline
-        </h1>
-        <div class="field">
-            <label class="label">12 Words PassPhrase</label>
-            <div class="control">
-                    <textarea class="textarea" id="passphrase" rows="3"></textarea>
-            </div>
+        <h3>Sign Transaction</h3>
+        <div class="input-group">
+            <span class="input-group-addon" id="nbxtridge-passphrase-help">Secret phrase:</span>
+            <input type="password" class="form-control" aria-describedby="nxtbridge-passphrase-help" readonly
+                id="nxtbridge-passphrase">
         </div>
-        <div class="field">
-            <label class="label">Message</label>
-            <div class="control">
-                    <textarea class="textarea" id="message" rows="8"></textarea>
-            </div>
+        <div class="input-group">
+            <span class="input-group-addon" id="nbxtridge-nuxtime-help">Time:</span>
+            <input type="text" class="form-control" readonly value="1385294400"
+                aria-describedby="nxtbridge-nuxtime-help" id="nxtbridge-nuxtime">
         </div>
-        <div class="field is-grouped">
-            <div class="control">
-                <button class="button is-link" onclick="signIt()">Sign it</button>
-            </div>
+        <div class="input-group">
+            <span class="input-group-addon" id="nbxtridge-unsigned-help">Unsigned Transaction:</span>
+            <textarea class="form-control" rows="5" readonly cols="90" aria-describedby="nxtbridge-unsigned-help"
+                id="unsigned_transaction"></textarea>
         </div>
-        <div class="field">
-            <label class="label">Signature</label>
-            <div class="control">
-                <textarea class="textarea" readonly id="signature" rows="3"></textarea>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon" id="review_1"></span>
+                    <input type="text" class="form-control" aria-describedby="value-help-1" id="review_val1" readonly>
+                </div>
             </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon" id="review_2"></span>
+                    <input type="text" class="form-control" aria-describedby="value-help-2" id="review_val2" readonly>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon" id="review_3"></span>
+                    <input type="text" class="form-control" aria-describedby="value-help-3" id="review_val3" readonly>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon" id="review_4"></span>
+                    <input type="text" class="form-control" aria-describedby="value-help-4" id="review_val4" readonly>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon" id="review_5"></span>
+                    <input type="text" class="form-control" aria-describedby="value-help-5" id="review_val5" readonly>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon" id="review_6"></span>
+                    <input type="text" class="form-control" aria-describedby="value-help-6" id="review_val6" readonly>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <div class="input-group">
+                    <span class="input-group-addon" id="review_7"></span>
+                    <input type="text" class="form-control" aria-describedby="value-help-5" id="review_val7" readonly>
+                </div>
+            </div>
+
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon" id="nbxtridge-signed-help">Signed Transaction:</span>
+            <textarea class="form-control" rows="15" aria-describedby="nxtbridge-signed-help" id="signed_transaction"
+                readonly> </textarea>
         </div>
     </div>
-</section>
-<script src="js/jquery-2.2.0.min.js"></script>
-<script src="js/jsbn.js" type="text/javascript"></script>
-<script src="js/jsbn2.js" type="text/javascript"></script>
-<script src="js/extensions.js" type="text/javascript"></script>
-<script src="js/converters.js" type="text/javascript"></script>
-<script src="js/nxtaddress.js" type="text/javascript"></script>
-<script src="js/curve25519.js" type="text/javascript"></script>
-<script src="js/sha256.js" type="text/javascript"></script>
-<script src="js/nrs.js" type="text/javascript"></script>
-<script src="js/nrs.util.js" type="text/javascript"></script>
-<script src="js/nrs.encryption.js" type="text/javascript"></script>
-<script src="js/words.js" type="text/javascript"></script>
-<script>
-        function signIt() {
-            password = jQuery("#passphrase").val().trim();
-            message = jQuery("#message").val().trim();
-            signature = NRS.signBytes(message,password);
-            jQuery("#signature").val(signature);
+
+    <script src="js/jquery-2.2.0.min.js"></script>
+    <script src="js/converters.js" type="text/javascript"></script>
+    <script src="js/nxtaddress.js" type="text/javascript"></script>
+    <script src="js/passphrasegenerator.js"></script>
+    <script src="js/jssha256.js" type="text/javascript"></script>
+    <script src="js/jsbn1.js" type="text/javascript"></script>
+    <script src="js/curve25519.js" type="text/javascript"></script>
+    <script src="js/typechecker.js" type="text/javascript"></script>
+    <script src="js/additional.js" type="text/javascript"></script>
+
+    <script>
+        function checkTX() {
+            var unsign = $("#unsigned_transaction").val();
+
+            if (unsign.length < 200) {
+                alert(
+                    "The Unsigned Transaction you pasted is not valid. Please check that you pasted the correct string of text."
+                );
+                return;
+            }
+
+            var bytes = converters.hexStringToByteArray(unsign);
+            var sig = converters.byteArrayToSignedInt32(bytes.slice(96, 100));
+
+            if (sig == 0) {
+                extractBytesData(bytes);
+            } else {
+                alert(
+                    "The text you inserted is an already-signed transaction. Please insert the Unsigned Transaction bytes."
+                );
+            }
         }
+
+        function signTX() {
+            var unsign = $("#unsigned_transaction").val();
+            var bytes = converters.hexStringToByteArray(unsign);
+            var secretPhrase;
+            secretPhrase = $("#nxtbridge-passphrase").val();
+            if (unsign.length < 100) {
+                alert(
+                    "Something is wrong. Please check that you pasted the Unsigned Transaction bytes correctly."
+                );
+                return;
+            }
+            if (secretPhrase.length < 10) {
+                alert(
+                    "Your passphrase is too weak! Please make sure that you’ve entered your passphrase correctly.\nIf you did, it is better to create a new account with a stronger passphrase and transfer all your funds to it asap!"
+                );
+                return;
+            }
+            var txbytes = positiveByteArray(bytes);
+            var sig = signBytes(txbytes, secretPhrase);
+            var signable = txbytes.slice(0, 96);
+            signable = signable.concat(sig);
+            signable = signable.concat(txbytes.slice(96 + 64));
+
+            var signed = converters.byteArrayToHexString(signable);
+
+            $("#signed_transaction").text(signed);
+        }
+
+        var url = window.location.href;
+        if (url.lastIndexOf("utb=") > -1) {
+            url = url.substr(url.lastIndexOf("utb=") + 4);
+
+            if (typeof url === "undefined" || url.length == 0) {
+                Android.finish("failed", "No Param");
+            } else {
+                var result = url.split("TXTXTX");
+                $("#unsigned_transaction").val(result[0]);
+                $("#nxtbridge-passphrase").val(unescape(result[1]));
+                $("#nxtbridge-nuxtime").val(result[2]);
+                checkTX();
+                signTX();
+                Android.finish("success", $("#signed_transaction").val());
+            }
+        } else {
+            Android.finish("failed", "No Param");
+        }
+
     </script>
+
 </body>
 
 </html>
